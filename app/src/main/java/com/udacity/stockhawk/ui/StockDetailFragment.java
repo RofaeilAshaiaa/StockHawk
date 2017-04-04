@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.CursorLoader;
@@ -84,7 +83,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         View view = inflater.inflate(R.layout.fragment_stock_detail, container, false);
         ButterKnife.bind(this, view);
         mOrganizationStock = new OrganizationStock();
-        mOrganizationStock.setSymbolStock(getArguments().getString(mContext.getString(R.string.intent_extra_symbol)));
+        mOrganizationStock.setSymbolStock(getArguments().getString(mContext.getString(R.string.intent_extra_symbol_key)));
 
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);

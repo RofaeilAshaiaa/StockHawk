@@ -16,7 +16,7 @@ public class StockDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent() ;
-        String symbolExtra = getString(R.string.intent_extra_symbol) ;
+        String symbolExtra = getString(R.string.intent_extra_symbol_key) ;
 
         if(intent.hasExtra(symbolExtra)){
 
