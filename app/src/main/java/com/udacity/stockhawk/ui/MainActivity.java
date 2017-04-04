@@ -1,6 +1,7 @@
 package com.udacity.stockhawk.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -46,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onClick(String symbol) {
+
+        Intent intent = new Intent(this,StockDetailActivity.class);
+        intent.putExtra(getString(R.string.intent_extra_symbol),symbol) ;
+        startActivity(intent);
         Timber.d("Symbol clicked: %s", symbol);
     }
 
