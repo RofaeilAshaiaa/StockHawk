@@ -90,10 +90,13 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
 
+            chartContainer.setVisibility(View.INVISIBLE);
+            stockName.setVisibility(View.INVISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             sentStockRequest();
         } else {
-            progressBar.setVisibility(View.VISIBLE);
+            chartContainer.setVisibility(View.INVISIBLE);
+            stockName.setVisibility(View.INVISIBLE);
             Toast.makeText(mContext, getString(R.string.error_no_connection), Toast.LENGTH_SHORT).show();
         }
 
@@ -161,7 +164,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                 chart.invalidate();
 
                 progressBar.setVisibility(View.INVISIBLE);
-                constraintLayout.setVisibility(View.VISIBLE);
+                chartContainer.setVisibility(View.VISIBLE);
+                stockName.setVisibility(View.VISIBLE);
 
             }
         };
