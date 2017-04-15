@@ -75,7 +75,7 @@ public final class QuoteSyncJob {
 
 
                 Stock stock = quotes.get(symbol);
-                if (isSymbolValid(stock)) {
+                if (isSymbolValid(stock, symbol, context)) {
 
                     StockQuote quote = stock.getQuote();
 
@@ -138,13 +138,24 @@ public final class QuoteSyncJob {
         }
     }
 
-    private static boolean isSymbolValid(Stock stock) {
+    private static boolean isSymbolValid(Stock stock, String symbol, Context context) {
 
-        String stockName = stock.getName();
-        if (stockName != null)
-            return true;
-        else
-            return false;
+        boolean returned;
+        if (stock == null)
+            returned = false;
+        else {
+            String stockName = stock.getName();
+            if (stockName != null)
+                returned = true;
+            else
+                returned = false;
+        }
+        if (!returned) {
+            String message = context.getString(R.string.toast_stock_symbol_not_valid, symbol);
+            Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        }
+
+        return returned;
     }
 
     private static void schedulePeriodic(Context context) {
