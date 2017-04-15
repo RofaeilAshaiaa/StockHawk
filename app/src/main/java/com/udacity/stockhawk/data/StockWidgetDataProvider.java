@@ -3,6 +3,7 @@ package com.udacity.stockhawk.data;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Binder;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -11,6 +12,10 @@ import com.udacity.stockhawk.objects.OrganizationStock;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.udacity.stockhawk.data.Contract.Quote.POSITION_ABSOLUTE_CHANGE;
+import static com.udacity.stockhawk.data.Contract.Quote.POSITION_PRICE;
+import static com.udacity.stockhawk.data.Contract.Quote.POSITION_SYMBOL;
 
 public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
@@ -27,6 +32,9 @@ public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFa
     @Override
     public void onCreate() {
         initData();
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
     }
 
     @Override
@@ -41,20 +49,14 @@ public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public int getCount() {
-//        return cursor.getCount();
-        return mCollection.size();
+        return cursor.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
 
-        RemoteViews remoteView = null;
-
-//        if (mCollection.get(position).getChange() > 0)
-//            remoteView = new RemoteViews(mContext.getPackageName(), R.layout.list_item_quote_widget);
-//        else if (mCollection.get(position).getChange() < 0)
-//            remoteView = new RemoteViews(mContext.getPackageName(), R.layout.list_item_quote_widget_red);
-        remoteView = new RemoteViews(mContext.getPackageName(), R.layout.list_item_quote_widget);
+        RemoteViews remoteView =
+                new RemoteViews(mContext.getPackageName(), R.layout.list_item_quote_widget);
 
         if (mCollection.get(position).getChange() < 0)
             remoteView.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
@@ -62,13 +64,10 @@ public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFa
         remoteView.setTextViewText(R.id.symbol, mCollection.get(position).getSymbolStock());
         remoteView.setTextViewText(R.id.price, Float.toString(mCollection.get(position).getPrice()));
         remoteView.setTextViewText(R.id.change, Float.toString(mCollection.get(position).getChange()));
+
         return remoteView;
 
-//        RemoteViews view = new RemoteViews(mContext.getPackageName(),
-//                android.R.layout.simple_list_item_1);
-//        view.setTextViewText(android.R.id.text1,
-//                mCollection.get(position).getSymbolStock());
-//        return view;
+
     }
 
     @Override
@@ -95,39 +94,31 @@ public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFa
 
         mCollection.clear();
 
-//        if (cursor != null) {
-//            cursor.close();
-//        }
-
-//        cursor = mContext.getContentResolver()
-//                .query(Contract.Quote.URI,
-//                Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
-//                null, null, Contract.Quote.COLUMN_SYMBOL) ;
-//
-//        cursor.moveToFirst() ;
-//
-//        for (int i = 0; i < cursor.getCount(); i++) {
-//            cursor.moveToNext();
-//            OrganizationStock stock = new OrganizationStock();
-//            stock.setSymbolStock(cursor.getString(POSITION_SYMBOL));
-//            stock.setPrice(cursor.getFloat(POSITION_PRICE));
-//            stock.setChange(cursor.getFloat(POSITION_ABSOLUTE_CHANGE));
-//            mCollection.add(stock);
-//
-//        }
-
-
-        for (float i = 1; i <= 10; i++) {
-            OrganizationStock stock = new OrganizationStock();
-            stock.setSymbolStock("item " + i);
-            stock.setPrice(i);
-            if (i % 2 == 0)
-                stock.setChange(-i);
-            else
-                stock.setChange(i);
-            mCollection.add(stock);
+        if (cursor != null) {
+            cursor.close();
         }
 
+        /**This is done because the widget runs as a separate thread
+         when compared to the current app and hence the app's data won't be accessible to it
+         because I'm using a content provider **/
+        final long identityToken = Binder.clearCallingIdentity();
+
+        cursor = mContext.getContentResolver()
+                .query(Contract.Quote.URI,
+                        null,
+                        null, null, Contract.Quote.COLUMN_SYMBOL);
+
+        Binder.restoreCallingIdentity(identityToken);
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToNext();
+            OrganizationStock stock = new OrganizationStock();
+            stock.setSymbolStock(cursor.getString(POSITION_SYMBOL));
+            stock.setPrice(cursor.getFloat(POSITION_PRICE));
+            stock.setChange(cursor.getFloat(POSITION_ABSOLUTE_CHANGE));
+            mCollection.add(stock);
+
+        }
 
     }
 
