@@ -2,7 +2,6 @@ package com.udacity.stockhawk.objects;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by anonymous on 4/4/17.
@@ -12,8 +11,26 @@ public class OrganizationStock {
 
     private String NameStock ;
     private String SymbolStock;
+    private float price;
+    private float change;
     private ArrayList<Calendar> DateStock;
     private ArrayList<Long> TimeInMillis ;
+
+    public float getChange() {
+        return change;
+    }
+
+    public void setChange(float change) {
+        this.change = change;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
 
     public ArrayList<Calendar> getDateStock() {
         return DateStock;
