@@ -1,6 +1,5 @@
 package com.udacity.stockhawk.sync;
 
-import android.app.Activity;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
-import com.udacity.stockhawk.ui.MainActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -118,6 +116,7 @@ public final class QuoteSyncJob {
 //                    }
 //                    PrefUtils.removeStock(context, symbol);
 
+                    // Toast doesn't work :( i don't know why
                     String message = context.getString(R.string.toast_stock_symbol_not_valid, symbol);
                     Toast.makeText(context,message, Toast.LENGTH_LONG).show();
                     PrefUtils.removeStock(context, symbol);
