@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.data;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import android.widget.RemoteViewsService;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.objects.OrganizationStock;
+import com.udacity.stockhawk.ui.StockDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +66,12 @@ public class StockWidgetDataProvider implements RemoteViewsService.RemoteViewsFa
         remoteView.setTextViewText(R.id.symbol, mCollection.get(position).getSymbolStock());
         remoteView.setTextViewText(R.id.price, Float.toString(mCollection.get(position).getPrice()));
         remoteView.setTextViewText(R.id.change, Float.toString(mCollection.get(position).getChange()));
+
+
+        Intent intent = new Intent(mContext, StockDetailActivity.class);
+        intent.putExtra(mContext.getString(R.string.intent_extra_symbol_key), mCollection.get(position).getSymbolStock());
+        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, intent, 0);
+        remoteView.setOnClickPendingIntent(R.id.stock_list_item, pendingIntent);
 
         return remoteView;
 
