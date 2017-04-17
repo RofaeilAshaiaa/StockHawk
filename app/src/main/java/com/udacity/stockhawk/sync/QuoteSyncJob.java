@@ -145,10 +145,7 @@ public final class QuoteSyncJob {
             returned = false;
         else {
             String stockName = stock.getName();
-            if (stockName != null)
-                returned = true;
-            else
-                returned = false;
+            returned = stockName != null;
         }
         if (!returned) {
             String message = context.getString(R.string.toast_stock_symbol_not_valid, symbol);
