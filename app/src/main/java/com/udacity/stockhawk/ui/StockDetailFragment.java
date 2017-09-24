@@ -131,7 +131,8 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
 
                 BarChart chart = new BarChart(mContext);
                 chartContainer.addView(chart);
-                chart.animateX(3000);
+//                chart.animateX(3000);
+                chart.animateY(1500);
 //                chart.animateXY(2000, 2000);
 
                 List<BarEntry> entries1 = new ArrayList<>();
