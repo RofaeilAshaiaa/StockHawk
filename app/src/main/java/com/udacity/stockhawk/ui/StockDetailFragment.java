@@ -137,7 +137,7 @@ public class StockDetailFragment extends Fragment implements LoaderManager.Loade
                 List<BarEntry> entries1 = new ArrayList<>();
                 ArrayList<String> strings = new ArrayList<>(quote.size());
 
-                for (int i = 0, j = quote.size() - 1; i < quote.size(); i++, j--) {
+                for (int i = 0, j = quote.size() - 1; i < quote.size()-1; i++, j--) {
                     entries1.add(new BarEntry(i, quote.get(j).getClose().floatValue()));
                     strings.add(i, getMonthForInt(quote.get(j).getDate().get(Calendar.MONTH)));
                 }
