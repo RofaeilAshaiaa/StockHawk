@@ -1,7 +1,9 @@
 ## StockHawk
 Final Project of Advanced Android App Development Course by Udacity (Part of Nanodegree Program).
 
-[[ https://github.com/RofaeilAshaiaa/StockHawk/blob/master/Screenshot%20from%202017-10-18%2017-02-22.png ]]
+[[https://github.com/RofaeilAshaiaa/StockHawk/blob/master/Screenshot%20from%202017-10-18%2017-02-22.png]]
+
+(https://github.com/RofaeilAshaiaa/StockHawk/blob/master/Screenshot%20from%202017-10-18%2017-02-22.png)
 
 ## Main Goal:
 Productionize An App, Taking It From A Functional State To A
